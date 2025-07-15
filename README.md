@@ -4,7 +4,7 @@
 
 This repository contains code and analysis pipelines for the **Plasmablastic Multiple Myeloma (PMM)** project, focusing on the characterization of **L1 repeat family** activity using RNA-seq and whole-genome bisulfite sequencing (WGBS) data.
 
-PMM is a high-risk subtype of multiple myeloma characterized by immature plasma cells (plasmablasts) in the bone marrow, showing aggressive behavior and reduced survival. Immature plasma cells cells display distinct morphological features, including a large nucleus, diffuse chromatin, and a prominent nucleolus.
+PMM is a high-risk subtype of multiple myeloma characterized by immature plasma cells (plasmablasts) in the bone marrow, showing aggressive behavior and reduced survival. These immature plasma cells display distinct morphological features, including a large nucleus, diffuse chromatin, and a prominent nucleolus.
 
 ---
 
@@ -48,13 +48,18 @@ PMM is a high-risk subtype of multiple myeloma characterized by immature plasma 
    - Alignment: `bismark` (bowtie1)
    - Deduplication: `picard`
    - Methylation extraction: `bismark_methylation_extractor`
-   - covrage filtering: `metylkit`
+   - Coverage filtering: `methylKit`
 
 2. **Region calling**
    - Quality control & trimming: `trimGalore`
    - Alignment: `abismal`
    - Deduplication & methylation extraction: `DNMTools`
    - Identification of PMD (partially methylated domains): `DNMTools`
+
+3. **INS analysis**
+   - Alignment: `methylGrapher`
+   - Deduplication & methylation extraction: `methylGrapher`
+   - INS supporting reads detection: in-house pipeline
 
 ---
 
@@ -74,9 +79,8 @@ git clone https://github.com/QianhuiWan/coh_PMM_paper
 # Change paths in scripts to match your local data directory and then run pipeline scripts with `bash`:
 bash /pipeline_scripts/*.sh
 
-# figures are generated in R, which can be run with `Rscript` given corrected data path
+# Figures are generated in R, which can be run with `Rscript` given corrected data paths
 Rscript /figure_scripts/*.R
-
 ```
 
 ---
@@ -90,3 +94,5 @@ Rscript /figure_scripts/*.R
 ## Contact
 
 For questions, please contact **Qianhui Wan** at [qwan@coh.org](mailto:qwan@coh.org).
+
+
