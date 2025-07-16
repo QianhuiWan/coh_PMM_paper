@@ -1,5 +1,7 @@
 # coh_PMM_paper
 
+_Analysis codes for L1 repeat activity in Plasmablastic Multiple Myeloma (PMM)_
+
 ## Project Overview
 
 This repository contains code and analysis pipelines for the **Plasmablastic Multiple Myeloma (PMM)** project, focusing on the characterization of **L1 repeat family** activity using RNA-seq and whole-genome bisulfite sequencing (WGBS) data.
