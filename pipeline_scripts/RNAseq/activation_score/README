@@ -1,0 +1,17 @@
+
+# how to use activation_score.sh function:
+# this .sh also contain:/Users/qwan/githubRepo/coh_PMM/RNAseq_scripts/benchmark/activationScore_functions/activation_score_S2_fil_L1.R
+
+## step1: source script
+source ~/githubRepo/coh_PMM/RNAseq_scripts/benchmark/activationScore_functions/activation_score.sh
+## step2: use function
+activation_score_script sample_name /path/to/crick.bam /path/to/watson.bam /desired/output/directory
+
+For example: 
+```
+
+activation_score_script PMM1 /path/to/crick.bam /path/to/watson.bam /path/to/output_dir/PMM1
+
+```
+
+
