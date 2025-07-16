@@ -31,10 +31,10 @@ PMM is a high-risk subtype of multiple myeloma characterized by immature plasma 
    - Quantification: `STAR`
 
 3. **Strand separation**
-   - Separate + and – strand reads: `samtools`
+   - Separate Watson and Crick strand reads: `samtools`
 
 4. **Visualization**
-   - Convert bedGraph to BigWig: UCSC tools
+   - Convert bam to BigWig: `bamCoverage`
 
 5. **Transposable Element (TE) transcripts**
    - Called separately on Watson and Crick strands, with activation scores calculated using an in-house pipeline
@@ -76,10 +76,13 @@ PMM is a high-risk subtype of multiple myeloma characterized by immature plasma 
 
 ```bash
 git clone https://github.com/QianhuiWan/coh_PMM_paper
-# Change paths in scripts to match your local data directory and then run pipeline scripts with `bash`:
+# Change paths in the scripts to match your local data directory
+# Install all required packages specified in the scripts
+# Then run the pipeline scripts using `bash`:
 bash /pipeline_scripts/*.sh
 
-# Figures are generated in R, which can be run with `Rscript` given corrected data paths
+# Figures are generated using R version 4.4.1
+# Run the figure scripts with `Rscript` after correcting the data paths
 Rscript /figure_scripts/*.R
 ```
 
