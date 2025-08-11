@@ -1,6 +1,6 @@
 # coh_PMM_paper
 
-_Analysis codes for L1 repeat activity in Plasmablastic Multiple Myeloma (PMM)_
+_Analysis scripts for L1 repeat activity in Plasmablastic Multiple Myeloma (PMM)_
 
 ## Project Overview
 
@@ -16,7 +16,7 @@ PMM is a high-risk subtype of multiple myeloma characterized by immature plasma 
   - **RNA-seq:** PMM3, PMM4, PMM6, PMM7, PMM11, PMM14, PMM15, PMM16; BMPC1, BMPC2, BMPC3
   - **WGBS:** PMM1, PMM2, PMM3, PMM4, PMM6, PMM7, PMM9, PMM11, PMM12, PMM13, PMM14, PMM15, PMM16, PMM17, PMM18; B1_rest, B2_rest, B3_rest
 
-- **Genome build:** hg38 (for final analyses)
+- **Genome build:** hg38
 
 ---
 
@@ -69,10 +69,10 @@ PMM is a high-risk subtype of multiple myeloma characterized by immature plasma 
 
 The repository is organized as follows:
 
-- **`/pipeline_scripts`**        – Analysis pipelines.
-- **`/figure_scripts`**          – Code for generating paper figures.
-- **`/R_shiny_web_app_scripts`** – Code for creating the [R Shiny web app](https://qianhui.shinyapps.io/ShinyApp_INS/).
-- **`/conda_env_yml_files`**     – YAML files for creating conda environments.
+- **`/pipeline_scripts`**        – Analysis pipelines
+- **`/figure_scripts`**          – Code for generating paper figures
+- **`/R_shiny_web_app_scripts`** – Code for creating the [R Shiny web app](https://qianhui.shinyapps.io/ShinyApp_INS/)
+- **`/conda_env_yml_files`**     – YAML files for creating conda environments
 
 ---
 
@@ -100,7 +100,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Citation [![DOI](https://img.shields.io/badge/DOI-10.1101%2F2025.07.22.666173-blue)](https://doi.org/10.1101/2025.07.22.666173)
 
-
 If you use the activation score pipeline in your study, please cite:
 
 > Qianhui Wan, Amy Leung, Mahek Vinod Bhandari, Hiroyuki Kato,  
@@ -125,3 +124,5 @@ If you use the activation score pipeline in your study, please cite:
 ## Contact
 
 For questions, please contact **Qianhui Wan** at [qwan@coh.org](mailto:qwan@coh.org).
+
+
