@@ -68,8 +68,10 @@ PMM is a high-risk subtype of multiple myeloma characterized by immature plasma 
 ## Repository Structure
 
 ```
-/pipeline_scripts    # Analysis pipelines
-/figure_scripts      # Code for generating paper figures
+/pipeline_scripts          # Analysis pipelines
+/figure_scripts            # Code for generating paper figures
+/R_shiny_web_app_scripts   # Code for creating R shiny web APP (https://qianhui.shinyapps.io/ShinyApp_INS/)
+/conda_env_yml_files       # yml files for creating conda environments
 ```
 
 ---
