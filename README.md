@@ -108,7 +108,7 @@ If you use the activation score pipeline in your study, please cite:
 > *bioRxiv* 2025.07.22.666173.  
 > doi: [10.1101/2025.07.22.666173](https://doi.org/10.1101/2025.07.22.666173)
 
-- BibTeX
+- BibTeX format for this citation:
 ```bibtex
 @article{wan2025activation,
   title        = {Activation score pipeline for genomic studies},
