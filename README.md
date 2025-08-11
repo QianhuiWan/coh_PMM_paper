@@ -98,8 +98,31 @@ Rscript /figure_scripts/*.R
 
 ---
 
+
+[![DOI](https://img.shields.io/badge/DOI-10.1101%2F2025.07.22.666173-blue)](https://doi.org/10.1101/2025.07.22.666173)
+
+## Citation
+
+If you use the activation score pipeline in your study, please cite:
+
+> Qianhui Wan, Amy Leung, Mahek Vinod Bhandari, Hiroyuki Kato,  
+> Joo Y. Song, Dustin E. Schones.  
+> *bioRxiv* 2025.07.22.666173.  
+> doi: [10.1101/2025.07.22.666173](https://doi.org/10.1101/2025.07.22.666173)
+
+### BibTeX
+```bibtex
+@article{wan2025activation,
+  title        = {Activation score pipeline for genomic studies},
+  author       = {Wan, Qianhui and Leung, Amy and Bhandari, Mahek Vinod and Kato, Hiroyuki and Song, Joo Y. and Schones, Dustin E.},
+  journal      = {bioRxiv},
+  year         = {2025},
+  publisher    = {Cold Spring Harbor Laboratory},
+  doi          = {10.1101/2025.07.22.666173},
+  url          = {https://doi.org/10.1101/2025.07.22.666173}
+}
+
 ## Contact
 
 For questions, please contact **Qianhui Wan** at [qwan@coh.org](mailto:qwan@coh.org).
-
 
