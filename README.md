@@ -92,13 +92,12 @@ Rscript /figure_scripts/*.R
 
 ---
 
-## License
+## License [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-[MIT License]
+This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-## Citation
 ## Citation [![DOI](https://img.shields.io/badge/DOI-10.1101%2F2025.07.22.666173-blue)](https://doi.org/10.1101/2025.07.22.666173)
 
 
