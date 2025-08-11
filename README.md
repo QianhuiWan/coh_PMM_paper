@@ -98,10 +98,9 @@ Rscript /figure_scripts/*.R
 
 ---
 
-
-[![DOI](https://img.shields.io/badge/DOI-10.1101%2F2025.07.22.666173-blue)](https://doi.org/10.1101/2025.07.22.666173)
-
 ## Citation
+## Citation [![DOI](https://img.shields.io/badge/DOI-10.1101%2F2025.07.22.666173-blue)](https://doi.org/10.1101/2025.07.22.666173)
+
 
 If you use the activation score pipeline in your study, please cite:
 
@@ -110,7 +109,7 @@ If you use the activation score pipeline in your study, please cite:
 > *bioRxiv* 2025.07.22.666173.  
 > doi: [10.1101/2025.07.22.666173](https://doi.org/10.1101/2025.07.22.666173)
 
-### BibTeX
+- BibTeX
 ```bibtex
 @article{wan2025activation,
   title        = {Activation score pipeline for genomic studies},
@@ -121,8 +120,9 @@ If you use the activation score pipeline in your study, please cite:
   doi          = {10.1101/2025.07.22.666173},
   url          = {https://doi.org/10.1101/2025.07.22.666173}
 }
+```
+---
 
 ## Contact
 
 For questions, please contact **Qianhui Wan** at [qwan@coh.org](mailto:qwan@coh.org).
-
