@@ -110,7 +110,7 @@ If you use the activation score pipeline in your study, please cite:
 - BibTeX format for this citation:
 ```bibtex
 @article{wan2025activation,
-  title        = {Activation score pipeline for genomic studies},
+  title        = {Methylation variability and LINE-1 activation in multiple myeloma},
   author       = {Wan, Qianhui and Leung, Amy and Bhandari, Mahek Vinod and Kato, Hiroyuki and Song, Joo Y. and Schones, Dustin E.},
   journal      = {bioRxiv},
   year         = {2025},
