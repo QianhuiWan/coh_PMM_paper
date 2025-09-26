@@ -47,5 +47,6 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
-
 data/*input*
+.DS_Store
+data/.DS_Store
