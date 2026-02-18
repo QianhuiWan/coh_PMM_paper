@@ -3,7 +3,7 @@
 # get DE topTable
 pathway_genes_dir = "/net/nfs-irwrsrchnas01/labs/dschones/bioresearch/qianhui/projects/PMM/RNA_MMRF/s4_countGene_R2"
 # dir = "/net/nfs-irwrsrchnas01/labs/dschones/bioresearch/qianhui/projects/PMM/RNA_MMRF/s4_countGene_R2/res_updateGroupR1"
-dir = "/net/nfs-irwrsrchnas01/labs/dschones/bioresearch/qianhui/projects/PMM/RNA_MMRF/s6_activationScore_R3/filtered_L1_redo_res"
+dir = "/net/nfs-irwrsrchnas01/labs/dschones/bioresearch/qianhui/projects/PMM/RNA_MMRF/s6_activationScore_R3_uniqueMap/filtered_L1_redo_res"
 # laod packages
 library(tidyverse)
 library(magrittr)
@@ -22,22 +22,38 @@ library(tibble)
 
 
 # load sample sheet: sample in 4 groups by activated L1
-patientsIn4Groups <- 
-  read_tsv("/net/nfs-irwrsrchnas01/labs/dschones/bioresearch/qianhui/projects/PMM/RNA_MMRF/s6_activationScore_R3/filtered_L1_redo_res/all_activeL1PA2_patientsIn4Groups_764.tsv")
+patientsIn4Groups <-
+  read_tsv("/net/nfs-irwrsrchnas01/labs/dschones/bioresearch/qianhui/projects/PMM/RNA_MMRF/s6_activationScore_R3_uniqueMap/filtered_L1_redo_res/all_activeL1PA2_patientsIn4Groups_764.tsv")
 
-MM_metadata_update <- read_tsv("/net/nfs-irwrsrchnas01/labs/dschones/bioresearch/qianhui/projects/PMM/rawData/MMRF_openAccess/clinical_data_BMprimary_addID_addSubtypes.tsv")
+# patientsIn4Groups <- 
+#   read_tsv("/net/nfs-irwrsrchnas01/labs/dschones/bioresearch/qianhui/projects/PMM/RNA_MMRF/s6_activationScore_R3_uniqueMap/filtered_L1_redo_res/all_activeL1s_patientsIn4Groups_764.tsv")
+
+MM_metadata_update <- read_tsv("/net/nfs-irwrsrchnas01/labs/dschones/bioresearch/qianhui/projects/PMM/rawData/MMRF_openAccess/clinical_data_BMprimary_addID_addSubtypes_uniqueMap.tsv")
+MM_metadata_update <- MM_metadata_update[match(patientsIn4Groups$sampleID, MM_metadata_update$SRR_id),]
+table(patientsIn4Groups$sampleID == MM_metadata_update$SRR_id)
+
+patientsIn4Groups$low_purity <- MM_metadata_update$`Low purity`
+patientsIn4Groups$sex <- MM_metadata_update$gender
+patientsIn4Groups$age <- MM_metadata_update$age_at_index
 
 # patientsIn4Groups <- patientsIn4Groups %>% 
 #   dplyr::filter(sampleID %in% MM_metadata$sampleID) %>% 
 #   arrange(match(sampleID, MM_metadata$sampleID))
 
 # load topTable output
-topTable_dat <- read_tsv(paste0(dir, "/lmVoom_topTable_Q4Q1_dat.tsv")) %>% 
+# topTable_dat <- read_tsv(paste0(dir, "/lmVoom_topTable_Q4Q1_dat.tsv")) %>% 
+#   dplyr::select(gene_id, logFC, FDR)
+# topTable_dat <- read_tsv(paste0(dir, "/lmVoom_topTable_Q4Q1_dat_purityAdj.tsv")) %>% 
+#   dplyr::select(gene_id, logFC, FDR)
+topTable_dat <- read_tsv(paste0(dir, "/lmVoom_topTable_L1groupsQ4Q1_dat_purityAdj.tsv")) %>% 
   dplyr::select(gene_id, logFC, FDR)
 
-lcpm <- read_tsv("/net/nfs-irwrsrchnas01/labs/dschones/bioresearch/qianhui/projects/PMM/RNA_MMRF/s1_checkStrandness_R4/lcpm_TMM_764_STARcounts_cpmFilterApplied.tsv")
+# lcpm <- read_tsv("/net/nfs-irwrsrchnas01/labs/dschones/bioresearch/qianhui/projects/PMM/RNA_MMRF/s1_checkStrandness_R4_gemini_uniqueMap/lcpm_TMM_764_STARcounts_cpmFilterApplied.tsv")
+# lcpm <- read_tsv(file = "/net/nfs-irwrsrchnas01/labs/dschones/bioresearch/qianhui/projects/PMM/RNA_MMRF/s6_activationScore_R3_uniqueMap/filtered_L1_redo_res/lcpm_TMM_MM_STARcounts_l1groups_bc.tsv")
 
+lcpm <- read_tsv(file = "/net/nfs-irwrsrchnas01/labs/dschones/bioresearch/qianhui/projects/PMM/RNA_MMRF/s6_activationScore_R3_uniqueMap/filtered_L1_redo_res/lcpm_TMM_MM_STARcounts.tsv")
 
+MM_metadata_update <- MM_metadata_update[MM_metadata_update$SRR_id %in% lcpm$sample,]
 # lcpm <- lcpm[,colnames(lcpm)%in%MM_metadata$sampleID]
 # lcpm <- lcpm[,match(colnames(lcpm), MM_metadata$sampleID)]
 # lcpm <- lcpm %>%
@@ -94,7 +110,6 @@ normalized_lcpm_fil_DE_mat <- normalized_lcpm_fil_DE_mat[,match(MM_metadata_upda
 # 
 # normalized_lcpm_fil_DE_mat <- normalized_lcpm_fil_DE_mat[rownames(normalized_lcpm_fil_DE_mat) %in% protein_coding_DEgenes,
 #                                                          match(MM_metadata_update$sampleID, colnames(normalized_lcpm_fil_DE_mat))]
-
 
 # update gene mapping to pathways
 library(msigdbr)
@@ -240,10 +255,10 @@ column_ha <- HeatmapAnnotation(
 
 row_ha = rowAnnotation(Pathway = de_gene_keyword_final$Pathway,
                        col = list(Pathway = c("E2F" = "pink", 
-                                           "INTERFERON" = "lightblue", 
-                                           "P53" = "darkgreen", 
-                                           # "NFKB" = "orange", 
-                                           "Unclassified"="white")), 
+                                              "INTERFERON" = "lightblue", 
+                                              "P53" = "darkgreen", 
+                                              # "NFKB" = "orange", 
+                                              "Unclassified"="white")), 
                        annotation_name_side = "top",          
                        annotation_name_gp = gpar(col = NA),
                        width = unit(0.5, "cm"))
@@ -256,13 +271,18 @@ row_ha = rowAnnotation(Pathway = de_gene_keyword_final$Pathway,
 #   arrange(match(gene_id, rownames(mat_key_scaled)))
 # rownames(mat_key_scaled) <- gene_id_symbol$gene_symbol
 
-pdf(file = paste0(dir, "/DE_heatmap_CH_changeCol.pdf"),
-    width = 16/2.54, height = 16/2.54)
-Heatmap(mat_key_scaled, name = "Z-Score", 
+pdf(file = paste0(dir, "/DE_heatmap_CH_changeCol_purityAdj_v2.pdf"),
+    width = 20/2.54, height = 10/2.54)
+Heatmap(
+  mat_key_scaled,
+  # mat_key,
+  name = "Z-Score", 
         cluster_rows = TRUE, 
         cluster_columns = TRUE, 
-        clustering_distance_columns = "manhattan",  #canberra
-        # clustering_method_columns = "complete",
+        clustering_distance_columns = "manhattan",  #canberra manhattan
+        # clustering_method_columns = "complete", #ward.D2
+        clustering_method_rows = "complete",
+        clustering_method_columns = "complete",
         top_annotation = column_ha, 
         right_annotation = row_ha, 
         # show_row_names = TRUE, 
@@ -279,12 +299,217 @@ Heatmap(mat_key_scaled, name = "Z-Score",
         col = colorRamp2(c(-4, 0, 4), c("blue", "white", "red")),
         row_title = "Genes", column_title = "Samples")
 
-
 dev.off()
 
 # draw(ht, annotation_legend_side = "right", heatmap_legend_side = "right")
 
-     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# =========================
+# Inputs / sanity checks
+# =========================
+stopifnot(is.matrix(mat_key_scaled))
+stopifnot(exists("MM_metadata_update"))
+stopifnot("L1PA2" %in% colnames(MM_metadata_update))
+stopifnot(exists("de_gene_keyword_final"))
+stopifnot(all(c("de_gene_id", "Pathway") %in% colnames(de_gene_keyword_final)))
+
+samples <- colnames(mat_key_scaled)
+genes   <- rownames(mat_key_scaled)
+
+# =========================
+# Helper 1: find sample-id column in metadata automatically
+# =========================
+find_sample_id_col <- function(meta, samples) {
+  cand_cols <- names(meta)[sapply(meta, function(z) is.character(z) || is.factor(z))]
+  scores <- list()
+  for (cn in cand_cols) {
+    vals <- as.character(meta[[cn]])
+    scores[[cn]] <- sum(samples %in% vals)
+  }
+  rn <- rownames(meta)
+  if (!is.null(rn)) scores[[".rownames"]] <- sum(samples %in% rn)
+  
+  sc <- unlist(scores)
+  best <- names(sc)[which.max(sc)]
+  best_n <- max(sc)
+  list(best = best, best_n = best_n, scores = sort(sc, decreasing = TRUE))
+}
+
+# =========================
+# Helper 2: coerce numeric robustly (handles list-column)
+# =========================
+as_numeric_vec <- function(x) {
+  x <- unlist(x, use.names = FALSE)
+  suppressWarnings(as.numeric(as.character(x)))
+}
+
+# =========================
+# Align metadata -> heatmap columns
+# =========================
+res_id <- find_sample_id_col(MM_metadata_update, samples)
+
+message("==== DEBUG: sample-id matching ====")
+message("Best key: ", res_id$best, "  (matched ", res_id$best_n, " / ", length(samples), ")")
+print(head(res_id$scores, 10))
+
+if (res_id$best_n == 0) {
+  stop("No sample identifier in MM_metadata_update matches colnames(mat_key_scaled). ",
+       "Please check heatmap column names vs metadata sample IDs.")
+}
+
+meta2 <- MM_metadata_update
+if (res_id$best == ".rownames") {
+  meta2$.sample_id <- rownames(meta2)
+} else {
+  meta2$.sample_id <- as.character(meta2[[res_id$best]])
+}
+
+meta2 <- meta2[!is.na(meta2$.sample_id) & meta2$.sample_id != "", , drop = FALSE]
+meta2 <- meta2[!duplicated(meta2$.sample_id), , drop = FALSE]
+rownames(meta2) <- meta2$.sample_id
+
+# Extract L1PA2 aligned to heatmap samples
+l1_vec <- as_numeric_vec(meta2[samples, "L1PA2", drop = TRUE])
+names(l1_vec) <- samples
+
+message("==== DEBUG: L1PA2 alignment ====")
+message("Non-NA L1PA2: ", sum(!is.na(l1_vec)), " / ", length(l1_vec))
+if (anyNA(l1_vec)) {
+  bad <- names(l1_vec)[is.na(l1_vec)]
+  message("Example NA samples (up to 20):")
+  print(head(bad, 20))
+  stop("L1PA2 has NA after alignment. Fix sample IDs so metadata matches heatmap columns.")
+}
+
+# =========================
+# Row annotation: map Pathway to heatmap rows
+# =========================
+path_map <- setNames(as.character(de_gene_keyword_final$Pathway),
+                     as.character(de_gene_keyword_final$de_gene_id))
+
+pathway_vec <- path_map[genes]
+matched_n <- sum(!is.na(pathway_vec))
+message("==== DEBUG: Pathway mapping ====")
+message("Matched rows: ", matched_n, " / ", length(genes),
+        " (", round(matched_n/length(genes)*100, 1), "%)")
+
+if (matched_n / length(genes) < 0.2) {
+  message("WARNING: Pathway matching rate is low (<20%). ",
+          "rownames(mat_key_scaled) likely do NOT match de_gene_keyword_final$de_gene_id.",
+          "\nFix: make them the same ID type (both gene symbol or both Ensembl).")
+}
+
+pathway_vec[is.na(pathway_vec)] <- "Unclassified"
+
+row_ha <- rowAnnotation(
+  Pathway = pathway_vec,
+  col = list(Pathway = c(
+    "E2F" = "pink",
+    "INTERFERON" = "lightblue",
+    "P53" = "darkgreen",
+    "Unclassified" = "white"
+  )),
+  annotation_name_side = "top",
+  annotation_name_gp = gpar(col = NA),
+  width = unit(0.5, "cm")
+)
+
+# =========================
+# Column annotation: L1PA2 gradient bars (blue -> white -> brown)
+# =========================
+q <- quantile(l1_vec, probs = c(0.05, 0.50, 0.95), na.rm = TRUE)
+col_fun_L1 <- colorRamp2(c(q[1], q[2], q[3]), c("blue", "white", "brown"))
+bar_cols <- col_fun_L1(l1_vec)
+
+column_ha <- HeatmapAnnotation(
+  L1PA2 = anno_barplot(
+    l1_vec,
+    gp = gpar(fill = bar_cols, col = NA),
+    border = FALSE
+  ),
+  height = unit(1.5, "cm"),
+  na_col = "white"
+)
+
+# =========================
+# Column clustering + GUARANTEED flip (high L1PA2 on RIGHT)
+# =========================
+COL_DIST_METHOD   <- "manhattan"
+COL_HCLUST_METHOD <- "complete"
+
+col_dist   <- dist(t(mat_key_scaled), method = COL_DIST_METHOD)
+col_hclust <- hclust(col_dist, method = COL_HCLUST_METHOD)
+col_dend   <- as.dendrogram(col_hclust)
+
+ord <- order.dendrogram(col_dend)
+ord_samples <- samples[ord]
+
+k <- max(5, floor(length(ord_samples) * 0.25))
+left_set  <- ord_samples[1:k]
+right_set <- ord_samples[(length(ord_samples)-k+1):length(ord_samples)]
+
+left_mean  <- mean(l1_vec[left_set],  na.rm = TRUE)
+right_mean <- mean(l1_vec[right_set], na.rm = TRUE)
+
+flipped <- FALSE
+if (right_mean < left_mean) {
+  col_dend <- rev(col_dend)
+  flipped <- TRUE
+}
+
+message("==== DEBUG: flip check by ORDER ====")
+message("Left 25% mean L1PA2  = ", signif(left_mean, 4))
+message("Right 25% mean L1PA2 = ", signif(right_mean, 4))
+message("Flipped dendrogram? ", flipped)
+
+# =========================
+# Heatmap
+# =========================
+
+ht <- Heatmap(
+  mat_key_scaled, name = "Z-Score",
+  cluster_rows = TRUE,
+  cluster_columns = col_dend,
+  top_annotation = column_ha,
+  right_annotation = row_ha,
+  show_row_names = FALSE,
+  show_column_names = FALSE,
+  show_row_dend = TRUE,
+  row_dend_width = unit(10, "mm"),
+  show_column_dend = FALSE,
+  col = colorRamp2(c(-4, 0, 4), c("blue", "white", "red")),
+  row_title = "Genes", column_title = "Samples"
+)
+
+pdf(file = paste0(dir, "/DE_heatmap_CH_changeCol_2.pdf"),
+    width = 16/2.54, height = 16/2.54)
+draw(ht)
+dev.off()
+
+# Optional save
+# pdf(file.path(output_dir, "heatmap_L1PA2_high_on_right.pdf"), width = 12, height = 10)
+# draw(ht)
+# dev.off()
+
+
+
+
+
+
 
 
 
