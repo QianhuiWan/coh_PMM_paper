@@ -1,6 +1,6 @@
 # coh_PMM_paper
 
-_Analysis scripts for L1 repeat activity in Plasmablastic Multiple Myeloma (PMM)_
+_Analysis scripts for L1 transcriptional activity in Plasmablastic Multiple Myeloma (PMM)_
 
 ## Project Overview
 

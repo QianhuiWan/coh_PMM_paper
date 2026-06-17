@@ -45,7 +45,7 @@ patientsIn4Groups$age <- MM_metadata_update$age_at_index
 #   dplyr::select(gene_id, logFC, FDR)
 # topTable_dat <- read_tsv(paste0(dir, "/lmVoom_topTable_Q4Q1_dat_purityAdj.tsv")) %>% 
 #   dplyr::select(gene_id, logFC, FDR)
-topTable_dat <- read_tsv(paste0(dir, "/lmVoom_topTable_L1groupsQ4Q1_dat_purityAdj.tsv")) %>% 
+topTable_dat <- read_tsv(paste0(dir, "/lmVoom_topTable_L1groupsQ4Q1_dat_purityAdj_r2.tsv")) %>% 
   dplyr::select(gene_id, logFC, FDR)
 
 # lcpm <- read_tsv("/net/nfs-irwrsrchnas01/labs/dschones/bioresearch/qianhui/projects/PMM/RNA_MMRF/s1_checkStrandness_R4_gemini_uniqueMap/lcpm_TMM_764_STARcounts_cpmFilterApplied.tsv")
@@ -271,18 +271,36 @@ row_ha = rowAnnotation(Pathway = de_gene_keyword_final$Pathway,
 #   arrange(match(gene_id, rownames(mat_key_scaled)))
 # rownames(mat_key_scaled) <- gene_id_symbol$gene_symbol
 
-pdf(file = paste0(dir, "/DE_heatmap_CH_changeCol_purityAdj_v2.pdf"),
+
+de_up_gene_ids <- DE_up_genes$gene_id %>% unique()
+de_down_gene_ids <- DE_down_genes$gene_id %>% unique()
+
+
+gene_direction <- ifelse(rownames(mat_key_scaled)%in% de_up_gene_ids, 
+                         "Upregulated", "Downregulated")
+names(gene_direction) <- rownames(mat_key_scaled)
+
+gene_direction <- gene_direction[rownames(mat_key_scaled)]
+row_order <- order(
+  factor(gene_direction, levels = c("Upregulated", "Downregulated"))
+)
+
+pdf(file = paste0(dir, "/DE_heatmap_CH_changeCol_purityAdj_v4_r2.pdf"),
     width = 20/2.54, height = 10/2.54)
 Heatmap(
   mat_key_scaled,
   # mat_key,
   name = "Z-Score", 
         cluster_rows = TRUE, 
+  row_split = factor(
+    gene_direction,
+    levels = c("Upregulated", "Downregulated")
+  ),column_km = 2,
         cluster_columns = TRUE, 
-        clustering_distance_columns = "manhattan",  #canberra manhattan
+        # clustering_distance_columns = "manhattan",  #canberra manhattan
         # clustering_method_columns = "complete", #ward.D2
-        clustering_method_rows = "complete",
-        clustering_method_columns = "complete",
+        # clustering_method_rows = "complete",
+        clustering_method_columns = "ward.D2",
         top_annotation = column_ha, 
         right_annotation = row_ha, 
         # show_row_names = TRUE, 
@@ -302,6 +320,7 @@ Heatmap(
 dev.off()
 
 # draw(ht, annotation_legend_side = "right", heatmap_legend_side = "right")
+
 
 
 
